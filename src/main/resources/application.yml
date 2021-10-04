@@ -1,0 +1,75 @@
+resilience4j.circuitbreaker:
+    configs:
+        default:
+            registerHealthIndicator: true
+            slidingWindowSize: 3
+            minimumNumberOfCalls: 2
+            permittedNumberOfCallInHalfOpenState: 3
+            automaticTransitionFromOpenToHalfOpenEnable: false
+            waitDurationInOpenState: 5s
+            failureRateThreshold: 50
+            eventConsumetBufferSize: 10
+            recordExceptions:
+                - org.springframerwork.web.client.HttpServerErrorException
+                - java.utl.concurrent.TimeoutExceptoin
+                - java.io.IOException
+            shared:
+                slidingWindowSize: 3
+                minimumNumberOfCalls: 2
+                permittedNumberOfCallInHalfOpenState: 3
+                waitDurationInOpenState: 5s
+                failureRateThreshold: 50
+                eventConsumetBufferSize: 10
+            instances:
+                cliente:
+                    baseConfig: default
+
+resilience4j.retry:
+    configs:
+        default:
+            maxAttemps: 3
+            waitDuration: 100
+            retryExceptions:
+                - org.springframerwork.web.client.HttpServerErrorException
+                - java.utl.concurrent.TimeoutExceptoin
+                - java.io.IOException
+            instances:
+                cliente:
+                    baseConfig: default
+
+resilience4j:
+    bulkhead:
+        configs:
+            default:
+                maxConcurrentCalls: 2
+        instances:
+            cliente:
+                baseConfig: default
+
+    thread-pool-bulkhead:
+        configs:
+            default:
+                maxThreadPoolSize: 2
+                coreThreadPoolSize: 1
+                queueCapacity: 2
+        instances:
+            cliente:
+                baseConfig: default
+
+    ratelimiter:
+        configs:
+            default:
+                limitForPeriod: 5
+                limitRefreshPeriod: 1s
+        instances:
+            cliente:
+                baseConfig: default
+
+    timelimiter:
+        configs:
+            default:
+                cancelRunningFuture: false
+                timeoutDuration: 1s
+        instances:
+            cliente:
+                baseConfig: default
