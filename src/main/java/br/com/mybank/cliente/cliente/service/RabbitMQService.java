@@ -19,8 +19,6 @@ public class RabbitMQService {
 
         private final ObjectMapper objectMapper;
 
-
-        @CircuitBreaker()
         public void enviaMensagem(String nomeFila, Object mensagem){
             try {
                 String mensagemJson = this.objectMapper.writeValueAsString(mensagem);
