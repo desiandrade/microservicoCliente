@@ -10,8 +10,8 @@ resilience4j.circuitbreaker:
             failureRateThreshold: 50
             eventConsumetBufferSize: 10
             recordExceptions:
-                - org.springframerwork.web.client.HttpServerErrorException
-                - java.utl.concurrent.TimeoutExceptoin
+                - org.springframework.web.client.HttpServerErrorException
+                - java.util.concurrent.TimeoutException
                 - java.io.IOException
             shared:
                 slidingWindowSize: 3
@@ -30,8 +30,8 @@ resilience4j.retry:
             maxAttemps: 3
             waitDuration: 100
             retryExceptions:
-                - org.springframerwork.web.client.HttpServerErrorException
-                - java.utl.concurrent.TimeoutExceptoin
+                - org.springframework.web.client.HttpServerErrorException
+                - java.util.concurrent.TimeoutException
                 - java.io.IOException
             instances:
                 cliente:
@@ -69,7 +69,7 @@ resilience4j:
         configs:
             default:
                 cancelRunningFuture: false
-                timeoutDuration: 1s
+                timeoutDuration: 3
         instances:
             cliente:
                 baseConfig: default
