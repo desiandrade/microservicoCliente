@@ -16,7 +16,6 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping("adicionar")
-    @io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker(name = "cliente")
     public ResponseEntity<?> adicionarCliente(@RequestBody Pessoa pessoa, @RequestHeader(value = "Authorization", required = true) String token) {
       return clienteService.adicionarCliente(pessoa, token);
     }

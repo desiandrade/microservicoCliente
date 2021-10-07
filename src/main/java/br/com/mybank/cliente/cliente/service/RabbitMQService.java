@@ -1,6 +1,7 @@
 package br.com.mybank.cliente.cliente.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @AllArgsConstructor
@@ -20,9 +23,8 @@ public class RabbitMQService {
 
         private final ObjectMapper objectMapper;
 
-        @Retry(name = "cliente")
-        @TimeLimiter(name = "cliente")
-        public void enviaMensagem(String nomeFila, Object mensagem){
+            @CircuitBreaker(name = "cliente")
+            public void enviaMensagem(String nomeFila, Object mensagem){
             try {
                 String mensagemJson = this.objectMapper.writeValueAsString(mensagem);
                 System.out.println(mensagemJson);
